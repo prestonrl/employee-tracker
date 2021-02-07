@@ -11,7 +11,7 @@ const connection = mysql.createConnection({
 
 connection.connect((err) => {
   if (err) throw err;
-  console.log("connected as id " + connection.threadId + "\n");
+  console.log("Welcome to Employee Tracker");
   interface();
 });
 
@@ -34,37 +34,49 @@ const interface = () => {
     })
     .then((answer) => {
       if (answer.options === "Quit") {
-        return process.exit(22);
+        connection.end();
       } else if (answer.options === "View all departments") {
         viewDepartments();
-        break;
       } else if (answer.options === "View all roles") {
         viewRoles();
-        break;
       } else if (answer.options === "View all employees") {
         viewEmployees();
-        break;
       } else if (answer.options === "Add a department") {
         addDepartment();
-        break;
       } else if (answer.options === "Add a role") {
         addRole();
-        break;
       } else if (answer.options === "Add an employee") {
         addEmployee();
-        break;
       } else if (answer.options === "Update an employee role") {
         updateRole();
-        break;
       }
     });
 };
 
 function viewDepartments() {
-
+  const query = "SELECT * FROM department";
+  connection.query(query, function (err, res) {
+    if (err) throw err;
+    console.table(res);
+    interface();
+  });
 }
-function viewRoles() {}
-function viewEmployees() {}
+function viewRoles() {
+  const query = "SELECT * FROM role";
+  connection.query(query, function (err, res) {
+    if (err) throw err;
+    console.table(res);
+    interface();
+  });
+}
+function viewEmployees() {
+  const query = "SELECT * FROM employee";
+  connection.query(query, function (err, res) {
+    if (err) throw err;
+    console.table(res);
+    interface();
+  });
+}
 function addDepartment() {}
 function addRole() {}
 function addEmployee() {}
