@@ -36,14 +36,37 @@ const interface = () => {
       if (answer.options === "Quit") {
         return process.exit(22);
       } else if (answer.options === "View all departments") {
+        viewDepartments();
+        break;
       } else if (answer.options === "View all roles") {
+        viewRoles();
+        break;
       } else if (answer.options === "View all employees") {
+        viewEmployees();
+        break;
       } else if (answer.options === "Add a department") {
+        addDepartment();
+        break;
       } else if (answer.options === "Add a role") {
+        addRole();
+        break;
       } else if (answer.options === "Add an employee") {
+        addEmployee();
+        break;
       } else if (answer.options === "Update an employee role") {
+        updateRole();
+        break;
       }
     });
 };
 
+function viewDepartments() {
+
+}
+function viewRoles() {}
+function viewEmployees() {}
+function addDepartment() {}
+function addRole() {}
+function addEmployee() {}
+function updateRole() {}
 
