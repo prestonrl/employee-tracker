@@ -60,7 +60,7 @@ const interface = () => {
 };
 
 function viewDepartments() {
-  const query = "SELECT * FROM department";
+  const query = "SELECT id, name AS department FROM department";
   connection.query(query, function (err, res) {
     if (err) throw err;
     console.table(res);
@@ -69,7 +69,7 @@ function viewDepartments() {
 };
 
 function viewRoles() {
-  const query = "SELECT * FROM role";
+  const query = "SELECT r.id, title AS role, salary, name AS department FROM role r LEFT JOIN department d ON department_id = d.id";
   connection.query(query, function (err, res) {
     if (err) throw err;
     console.table(res);
@@ -78,7 +78,7 @@ function viewRoles() {
 };
 
 function viewEmployees() {
-  const query = "SELECT * FROM employee";
+  const query = "SELECT employee.id, first_name AS firstname, last_name AS lastname, title AS role, name AS department, salary as salary FROM employee INNER JOIN role ON employee.role_id = role.id INNER JOIN department ON role.department_id = department.id;";
   connection.query(query, function (err, res) {
     if (err) throw err;
     console.table(res);
@@ -98,7 +98,7 @@ function addDepartment() {
       const query = `INSERT INTO department (name) VALUES("${department}")`;
       connection.query(query, function (err, res) {
         if (err) throw err;
-        console.table(res);
+        console.log(department + " has beeen added")
         interface();
       });
     });
@@ -130,7 +130,7 @@ function addRole() {
       const query = `INSERT INTO role (title, salary, department_id) VALUE("${title}", "${salary}", "${departmentID}")`;
       connection.query(query, function (err, res) {
         if (err) throw err;
-        console.table(res);
+        console.log(title + " has been added as a new role");
         interface();
       });
     });
@@ -168,25 +168,12 @@ function addEmployee() {
       const query = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUE("${firstName}", "${lastName}", "${roleID}", "${managerID}")`;
       connection.query(query, function (err, res) {
         if (err) throw err;
-        console.table(res);
+        console.log(firstName + " " + lastName + " has been added")
         interface();
       });
     });
 };
 
 function updateRole() {
-  const query = "SELECT id, first_name, last_name, role_id  FROM employee";
-  connection.query(query, function (err, res) {
-    if (err) throw err;
-    console.table(res);
-    {
-      inquirer.prompt({
-        type: "input",
-        message:
-          "Which employee needs to be updated? (please use number from id column only)",
-        name: "employee",
-      });
-    }
-    interface();
-  });
+ 
 };
