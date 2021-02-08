@@ -176,6 +176,8 @@ function addEmployee() {
 
 
 function updateRole() {
+  let selectEmployee = '';
+  let newRole = 0;
   connection.query("SELECT * from employee", function (error, res) {
     let allemployees = res.map((employee) => ({
       name: `${employee.first_name} ${employee.last_name}`,
@@ -190,6 +192,7 @@ function updateRole() {
       },
     ])
     .then(function (answer) {
+      selectEmployee = answer.employee;
       connection.query("SELECT * from role", function (error, res) {
         let allroles = res.map((role) => ({
           name: role.title,
@@ -205,14 +208,15 @@ function updateRole() {
             },
           ])
           .then(function (answer) {
+            newRole = answer.role;
             connection.query(
               "UPDATE employee SET ? WHERE ?",
               [
                 {
-                  role_id: answer.role,
+                  role_id: newRole,
                 },
                 {
-                  id: answer.employee,
+                  id: selectEmployee,
                 },
               ],
               function (err, res) {
