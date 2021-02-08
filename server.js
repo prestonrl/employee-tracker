@@ -174,6 +174,58 @@ function addEmployee() {
     });
 };
 
+
 function updateRole() {
- 
-};
+  connection.query("SELECT * from employee", function (error, res) {
+    let allemployees = res.map((employee) => ({
+      name: `${employee.first_name} ${employee.last_name}`,
+      value: employee.id,
+    }));
+    inquirer.prompt([
+      {
+        name: "employee",
+        type: "list",
+        message: "Who would you like to update?",
+        choices: allemployees,
+      },
+    ])
+    .then(function (answer) {
+      connection.query("SELECT * from role", function (error, res) {
+        let allroles = res.map((role) => ({
+          name: role.title,
+          value: role.id,
+        }));
+        inquirer
+          .prompt([
+            {
+              name: "role",
+              type: "list",
+              message: "Which role does this employee have?",
+              choices: allroles,
+            },
+          ])
+          .then(function (answer) {
+            connection.query(
+              "UPDATE employee SET ? WHERE ?",
+              [
+                {
+                  role_id: answer.role,
+                },
+                {
+                  id: answer.employee,
+                },
+              ],
+              function (err, res) {
+                if (err) throw err;
+                console.log("This employee's role is updated");
+                interface();
+              }
+            );
+          });
+      });
+      
+    })
+  });
+  
+    
+}
